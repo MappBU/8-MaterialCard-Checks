@@ -1,0 +1,112 @@
+Material Card
+
+	! Можем например во Фрагмент забустить или в РесайклерВью через шаблон карточки
+	! Материал Кардс имеют свойство свободного перемещения их пальцем по экрану
+
+--------------------------------------------------------------------------------------------------------------------
+ XML
+--------------------------------------------------------------------------------------------------------------------
+
+	<?xml version="1.0" encoding="utf-8"?>
+
+	<layout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			tools:context=".MainActivity">
+			
+			<!-- Сама карточка 
+			app:strokeWidth="1dp" - Рамка вокруг карточки
+			app:strokeColor="@android:color/holo_orange_dark" - цвет рамки карточки
+			app:cardElevation="0dp" - тень карточки
+			android:focusable="true" - Фокусируется на карточке
+			android:checkable="true" - чтобы можно было нажимать на карточку (ОнКлик)
+			android:clickable="true" - Чтобы выбирать карточку, долго на неё нажимая
+			app:cardBackgroundColor="@android:color/holo_blue_light" - цвет карточки (Если Бекграунд картинка во внутреннем констреинт не указана)
+			app:checkedIcon="@drawable/approve" - Этот аттрибут указывать, если нужно поменять иконку галочки при выборе карточки.
+			app:checkedIconTint="@color/white" - Меняет цвет иконки выбора (Если не указать, берет цвет colorPrimary)
+			-->
+			<com.google.android.material.card.MaterialCardView
+				android:id="@+id/card"
+				android:layout_width="match_parent"
+				android:layout_height="200dp"
+				android:layout_margin="50dp"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintRight_toRightOf="parent"
+				app:cardBackgroundColor="@android:color/holo_blue_light"
+				app:strokeWidth="1dp"
+				app:strokeColor="@android:color/holo_orange_dark"
+				app:checkedIconTint="@color/white"
+				app:cardElevation="0dp"
+				android:focusable="true"
+				android:checkable="true"
+				android:clickable="true">
+
+				<!-- constraintlayout - внутри карточки - для размещения поверх неё кнопок и текста 
+				android:background="@drawable/baner" - Картинку в карточке размещаем во внутреннем Констреинт (Если бекграунд цвет в Материал кард не указан)
+				-->
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:background="@drawable/baner">
+
+					<Button
+						android:id="@+id/containedIconButton"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:layout_constraintBottom_toBottomOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"
+						android:layout_marginBottom="10dp"
+						android:layout_marginRight="10dp"
+						android:backgroundTint="@color/orange"
+						android:textColor="@color/black"
+						android:text="@string/play"/>
+
+					<androidx.appcompat.widget.AppCompatTextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						android:padding="10dp"
+						android:layout_marginTop="5dp"
+						android:layout_marginLeft="5dp"
+						android:text="@string/badBoys"
+						android:background="@color/black"
+						android:textColor="@color/white"/>
+
+				</androidx.constraintlayout.widget.ConstraintLayout>
+
+			</com.google.android.material.card.MaterialCardView>
+
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+	</layout>
+
+
+--------------------------------------------------------------------------------------------------------------------
+ KT
+--------------------------------------------------------------------------------------------------------------------
+
+	class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+		private var binding:ActivityMainBinding? = null
+
+		override fun onCreate(savedInstanceState: Bundle?) {
+			super.onCreate(savedInstanceState)
+			binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+			// Этот метод отвечает за Выбор карточки
+			binding?.card?.setOnLongClickListener {
+				binding?.card?.isChecked = !binding?.card?.isChecked!!
+				true
+			}
+
+		}
+
+	}
